@@ -102,3 +102,8 @@ dist
 
 # TernJS port file
 .tern-port
+
+#my ignore
+key.json
+package-lock.json
+tweets.json
