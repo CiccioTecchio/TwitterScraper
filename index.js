@@ -2,7 +2,7 @@ const Twitter = require('twitter');
 const fs = require('fs');
 const key = require('./key.json');
 const client = new Twitter(key);
-const kw = "your keyword"
+const kw = "salvini"
 const LIMIT = 10;
 let tweets = new Array();
 
@@ -28,7 +28,7 @@ client.stream('statuses/filter', {track: kw }, function (stream) {
       console.log(tweets.length)
     }else {
       stream.destroy();
-      fs.writeFileSync('tweets.json', JSON.stringify(tweets));
+      fs.writeFileSync('tweets.json', JSON.stringify(tweets, null, 2));
     }
   });
 
