@@ -1,27 +1,17 @@
 const Twitter = require('twitter');
 const fs = require('fs');
+
 const key = require('./key.json');
+const scraper = require('./scraper.js');
+
 const client = new Twitter(key);
-const kw = "salvini"
+const kw = "your keyword"
 const LIMIT = 10;
 let tweets = new Array();
 
 client.stream('statuses/filter', {track: kw }, function (stream) {
   stream.on('data', function(event) {
-    
-    let res = {
-        "text" : "",
-        //"screen_name": event.user.screen_name,
-        //"name": event.user.name,
-        //"location": event.user.location
-    };
-
-
-    if(event.retweeted_status != undefined){
-      res.text = (event.retweeted_status.truncated)?event.retweeted_status.extended_tweet.full_text:event.retweeted_status.text
-    }else{
-      res.text = (!event.truncated)?res.text = event.text:res.text = event.extended_tweet.full_text;
-    }
+    let res = scraper.scrape(event);
     
     if(tweets.length < LIMIT){
       tweets.push(res);
@@ -37,5 +27,3 @@ client.stream('statuses/filter', {track: kw }, function (stream) {
     throw error;
   });
 });
-
-
